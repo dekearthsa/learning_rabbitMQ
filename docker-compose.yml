@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  # http_server:
+  #   container_name: http_server
+  #   restart: always
+  #   build:
+  #     context: "./http_server"
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     - TZ=Asia/Bangkok
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /etc/timezone:/etc/timezone:ro
+  #   networks:
+  #     - net
+
+  nodejs:
+    container_name: node_server
+    image: node:17.8-alpine
+    tty: true
+    volumes:
+      - ".:/usr/app"
+      
+  rabbitMQ:
+    container_name: rabbitmq
+    restart: always
+    image: rabbitmq:management-alpine
+    tty: true
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - net
+
+networks:
+  net:
+    external: true
+    driver: bridge
+
